@@ -1,0 +1,62 @@
+PATHS:
+  METADATA_ALL_INFO: '/scratch/covnet-ufcspa/nouara.xavier/experiemento-01-03-2022-ModeloNovo/cnn_basic/metadata_all.csv'
+  METADATA_ALL_INFO_HCPA_ORIGINAL: '/scratch/covnet-ufcspa/nouara.xavier/experiemento-01-03-2022-ModeloNovo/cnn_basic/metadata_test_covid_hcpa_original.csv'
+  METADATA_ALL_INFO_HCPA_RESIZE: '/scratch/covnet-ufcspa/nouara.xavier/experiemento-01-03-2022-ModeloNovo/cnn_basic/metadata_test_covid_hcpa_resize.csv'
+  METADATA_ALL_INFO_HCPA_EQUAL: '/scratch/covnet-ufcspa/nouara.xavier/experiemento-01-03-2022-ModeloNovo/cnn_basic/metadata_test_covid_equalization.csv'
+  METADATA_ALL_INFO_HCPA_CLAHE: '/scratch/covnet-ufcspa/nouara.xavier/experiemento-01-03-2022-ModeloNovo/cnn_basic/metadata_test_covid_clahe.csv'
+  LOCAL_SALVE_FILE: '/scratch/covnet-ufcspa/nouara.xavier/'
+  LOCAL_IMAGES_HCPA: 'C:/Mestrado/Imagens/hcpa/png/hcpa_covid_I790.png'
+
+IMAGES:
+  DIM_X: 224
+  DIM_Y: 224
+  QUANT_CHANNELS: 3
+
+MODELS:
+  TYPE: 'inceptionv3' #'cnn_basic' 'resnet50v2' 'resnet101v2' 'inceptionv3'
+
+DATA:
+  IMG_DIM: [224, 224]
+
+TRAIN:
+  BATCH_SIZE: 2000
+  EPOCHS: 10
+
+TEMPLATE_CNN_BASIC:
+  LR: 0.00001
+  OPTIMIZER: 'adam'
+  DROPOUT: 0.4
+  LOSS: 'binary_crossentropy'
+  METRICS: ['accuracy', 'loss', 'recall', 'precision', 'auc']
+
+P_CNN:
+    KERNEL_SIZE: (3,3)
+    STRIDES: (1,1)
+    INIT_FILTERS: 16
+    FILTER_EXP_BASE: 3
+    MAXPOOL_SIZE: (2,2)
+    CONV_BLOCKS: 3
+    NODES_DENSE0: 128
+    LR: 0.00001
+    OPTIMIZER: 'adam'
+    DROPOUT: 0.4
+    L2_LAMBDA: 0.0001
+    NUM_CLASS: 2
+
+HP_SEARCH:
+  KERNEL_SIZE: [ '(3,3)', '(5,5)' ]     # Discrete range
+  MAXPOOL_SIZE: [ '(2,2)', '(3,3)' ]    # Discrete range
+  INIT_FILTERS: [ 8, 16, 32 ]           # Discrete range
+  FILTER_EXP_BASE: [ 2, 3 ]             # Int range
+  NODES_DENSE0: [ 128, 256, 512, 1024 ] # Discrete range
+  CONV_BLOCKS: [ 3, 8 ]                 # Int range
+  DROPOUT: [ 0.0, 0.1, 0.2, 0.3, 0.4, 0.5 ]                 # Discrete range
+  LR: [ -5.0, -3.0 ]                    # Real range on log scale (10^x)
+  OPTIMIZER: [ 'adam' ]                 # Discrete range
+  L2_LAMBDA: [ 0.0, 0.00001, 0.0001, 0.001 ]    # Discrete range
+  BATCH_SIZE:    512                 # Discrete range
+  IMB_STRATEGY: [ 'class_weight' ]      # Discrete range
+
+
+
+
